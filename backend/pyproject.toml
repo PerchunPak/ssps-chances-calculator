@@ -9,7 +9,6 @@ description = "Backend for SSPS chances calculator"
 version = "0.1.0"
 license = "MIT"
 authors = []
-readme = "README.md"
 packages = [ { include = "src" } ]
 
 
@@ -20,6 +19,12 @@ omegaconf = "~2.3"
 loguru = "~0.7"
 sentry-sdk = "~1.37"
 apykuma = "~1"
+fastapi = "~0.110"
+strawberry-graphql = "~0.226"
+
+
+[tool.poetry.group.dev.dependencies]
+strawberry-graphql = { version = "*", extras = ["debug-server"] }
 
 
 [tool.poetry.group.make.dependencies]
