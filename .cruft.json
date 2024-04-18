@@ -1,0 +1,18 @@
+{
+  "template": "https://github.com/PerchunPak/svelte-template",
+  "commit": "66e44be4030bc2352e4f179ad0d7d9404b6be8f4",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "ssps-chances-calculator",
+      "organization": "PerchunPak",
+      "project_description": "Calculator for your chances to get into https://ssps.cz!",
+      "center_everything": "y",
+      "_copy_without_render": [
+        ".venv"
+      ],
+      "_template": "https://github.com/PerchunPak/svelte-template"
+    }
+  },
+  "directory": null
+}
