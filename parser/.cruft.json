@@ -1,0 +1,21 @@
+{
+  "template": "/home/perchun/dev/python-template",
+  "commit": "78f47e911325f447e7042188e959ad7fd00a4db2",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "parser",
+      "organization": "PerchunPak",
+      "project_description": "Parser script for SSPS chances calculator.",
+      "other_languages_support": "n",
+      "ukrainian_language_support": "n",
+      "russian_language_support": "n",
+      "license": "MIT",
+      "_copy_without_render": [
+        "docs/_autoapi_templates/python"
+      ],
+      "_template": "/home/perchun/dev/python-template"
+    }
+  },
+  "directory": null
+}
