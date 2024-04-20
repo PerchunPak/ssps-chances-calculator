@@ -14,7 +14,7 @@ packages = [ { include = "src" } ]
 
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.10"
 
 
 [tool.poetry.group.make.dependencies]
@@ -33,4 +33,4 @@ mypy = "~1.7"
 
 [tool.black]
 line-length = 120
-target-version = ['py38']
+target-version = ['py310']
