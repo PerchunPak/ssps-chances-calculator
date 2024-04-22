@@ -3,18 +3,20 @@ import strawberry
 
 @strawberry.type
 class Points:
-    mat: int
-    czl: int  # CZech Language
-    school_test: int
-    other: int  # portfolio, not. letter, interview
-    total: int  # provided by school, max 100
+    mat: int | float
+    czl: int | float | None  # CZech Language
+    ict: int
+    other: int  # portfolio, motivation letter, interview
 
 
 @strawberry.type
 class Student:
-    place: int  # TODO: is unique?
-    school_id: str  # Identifikační číslo
-    points: Points
+    place: int  # WARN: Is not unique when total_points are equal; but only if two people (see it 2023 103)
+    school_id: str
+    original_points: Points
+    school_points: Points
+    total_points: float
+    reduced_ranking: int | None  # redukované pořadí; can be 0 if student was accepted
 
 
 @strawberry.type
