@@ -1,5 +1,18 @@
 import dataclasses
+
 import typing_extensions as te
+
+
+def parse_reduced_ranking(as_list: list[str]) -> int | None:
+    if len(as_list) < 13:
+        return None
+
+    if as_list[12] == "Uchazeč přijat na základě redukovaného pořadí":
+        return 0
+
+    return int(
+        as_list[12].removeprefix("Uchazeč se umístil na základě redukovaného pořadí na ").removesuffix(". místě.")
+    )
 
 
 @dataclasses.dataclass
@@ -35,6 +48,7 @@ class Student:
     original_points: Points
     school_points: Points
     total_points: float
+    reduced_ranking: int | None  # redukované pořadí
 
     @classmethod
     def parse(cls, as_list: list[str]) -> te.Self:
@@ -48,4 +62,5 @@ class Student:
             original_points=Points.parse_original(as_list),
             school_points=Points.parse_school(as_list),
             total_points=float(as_list[11].replace(",", ".")),
+            reduced_ranking=parse_reduced_ranking(as_list),
         )
