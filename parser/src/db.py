@@ -34,6 +34,7 @@ class Database:
                 original_points_id    TEXT NOT NULL,
                 school_points_id      TEXT NOT NULL,
                 total_points          REAL NOT NULL,
+                reduced_ranking       INTEGER,
 
                 FOREIGN KEY(original_points_id) REFERENCES points(id),
                 FOREIGN KEY(school_points_id) REFERENCES points(id)
@@ -64,8 +65,8 @@ class Database:
 
         self._cursor.execute(
             f"""
-            INSERT INTO {self._table_name} (place, school_id, original_points_id, school_points_id, total_points)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO {self._table_name} (place, school_id, original_points_id, school_points_id, total_points, reduced_ranking)
+            VALUES (?, ?, ?, ?, ?, ?)
             """,
             (
                 student.place,
@@ -73,6 +74,7 @@ class Database:
                 original_points_id,
                 school_points_id,
                 student.total_points,
+                student.reduced_ranking,
             ),
         )
         self._connection.commit()
