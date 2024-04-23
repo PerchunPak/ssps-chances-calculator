@@ -19,7 +19,7 @@ omegaconf = "~2.3"
 loguru = "~0.7"
 sentry-sdk = "~1.37"
 fastapi = "~0.110"
-strawberry-graphql = "~0.226"
+strawberry-graphql = { version = "~0.226", extras = ["fastapi"] }
 
 
 [tool.poetry.group.dev.dependencies]
