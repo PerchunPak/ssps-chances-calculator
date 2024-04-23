@@ -1,4 +1,3 @@
-import typing as t
 
 import aiosqlite
 import asyncache

@@ -1,10 +1,9 @@
 import fastapi
 import uvicorn
-from strawberry.asgi import GraphQL
 
 import src.utils as utils
 from src.strawberry.schema import schema as strawberry_schema
-
+from strawberry.asgi import GraphQL
 
 utils.start_sentry()
 
