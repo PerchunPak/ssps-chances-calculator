@@ -41,6 +41,7 @@ jobs:
     - name: Generate DB using parser
       run: |
         cd parser
+        mkdir ../backend/data
         python -m src data/2023it.csv 2023 it ../backend/data
 
     - name: Run tests
