@@ -36,7 +36,7 @@ jobs:
         curl https://files.perchun.it/ssps/2023it.csv -Lo 2023it.csv
 
         # verify signatures of files
-        echo 'f8e4a840b9a15306d5f37484e342d75f101f79a85c082650f132a74e229f909a  2023it.csv' | sha256 -c
+        echo 'f8e4a840b9a15306d5f37484e342d75f101f79a85c082650f132a74e229f909a  2023it.csv' | sha256sum -c
 
     - name: Generate DB using parser
       run: |
