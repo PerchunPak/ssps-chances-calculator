@@ -21,8 +21,8 @@ class Database:
                 id      TEXT PRIMARY KEY,
                 mat     REAL NOT NULL,
                 czl     REAL,
-                ict     NUMBER,
-                other   NUMBER
+                ict     NUMBER NOT NULL,
+                other   NUMBER NOT NULL
             )
             """
         )
