@@ -26,7 +26,7 @@ jobs:
       with:
           working-dir: ./backend
           python-version: ${{ matrix.python-version }}
-          install-args: --with github_hooks --sync
+          install-args: --sync
 
     - name: Download CSV tables
       run: |
