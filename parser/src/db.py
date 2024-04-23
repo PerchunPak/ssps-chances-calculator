@@ -42,7 +42,7 @@ class Database:
             """,
         )
 
-    def add_student(self, student: Student) -> None:
+    def add_student(self, student: Student) -> tuple[str, str]:
         original_points_id, school_points_id = str(uuid.uuid4()), str(uuid.uuid4())
 
         for id, points in (
@@ -78,3 +78,5 @@ class Database:
             ),
         )
         self._connection.commit()
+
+        return original_points_id, school_points_id

@@ -1,9 +1,13 @@
+import dataclasses
+import json
 import re
 import sys
+import typing as t
 from pathlib import Path
 
 from src.db import Database
 from src.student import Student
+from src.test_representation import TestRepresentation
 
 SEPARATOR_REGEX = re.compile(r"\s+")
 
@@ -22,8 +26,12 @@ def main() -> None:
     print(f"Found {len(students)} students, last is on {students[-1].place} place!")
 
     db = Database(result_path / "database.db", f"year{year}{field}")
+    test_representation = TestRepresentation(result_path / "test_db.json", str(year), field)
     for student in students:
-        db.add_student(student)
+        original_points_id, school_points_id = db.add_student(student)
+        test_representation.add_student(student, original_points_id, school_points_id)
+
+    test_representation.write()
 
 
 if __name__ == "__main__":
