@@ -10,8 +10,9 @@ SEPARATOR_REGEX = re.compile(r"\s+")
 
 def main() -> None:
     csv_table_path = Path(sys.argv[1])
-    db_table_name = sys.argv[2]
-    result_db_path = Path(sys.argv[3])
+    year = int(sys.argv[2])
+    field = sys.argv[3]
+    result_path = Path(sys.argv[4])
 
     students: list[Student] = []
     with csv_table_path.open("r") as csv_table_file:
@@ -20,7 +21,7 @@ def main() -> None:
             students.append(Student.parse(as_list))
     print(f"Found {len(students)} students, last is on {students[-1].place} place!")
 
-    db = Database(result_db_path, db_table_name)
+    db = Database(result_path / "database.db", f"year{year}{field}")
     for student in students:
         db.add_student(student)
 
