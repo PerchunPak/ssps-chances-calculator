@@ -11,11 +11,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  test-backend:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.10', '3.11', '3.12']
 
     steps:
     - uses: actions/checkout@v4
@@ -24,95 +24,26 @@ jobs:
       id: poetry_setup
       uses: ItsDrike/setup-poetry@v1
       with:
+          working-dir: ./backend
           python-version: ${{ matrix.python-version }}
           install-args: --with github_hooks --sync
 
-    - name: Run checks
-      run: poetry run make test
-
-  post-test:
-    runs-on: ubuntu-latest
-    needs: 'test'
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Setup poetry
-      id: poetry_setup
-      uses: ItsDrike/setup-poetry@v1
-      with:
-          python-version: 3.12
-          install-args: --only main --only make --only github_hooks --only typing --sync
-
-    - name: Apply codestyle
+    - name: Download CSV tables
       run: |
-        poetry run make format
+        mkdir parser/data
+        cd parser/data
 
-    - name: Commit changes
+        curl https://files.perchun.it/ssps/2023it.csv -Lo 2023it.csv
+
+        # verify signatures of files
+        echo 'f8e4a840b9a15306d5f37484e342d75f101f79a85c082650f132a74e229f909a  2023it.csv' | sha256 -c
+
+    - name: Generate DB using parser
       run: |
-        poetry run python .github/commit_and_push.py \
-          --token ${{ secrets.GITHUB_TOKEN }} \
-          PerchunPak/ssps-chances-calculator \
-          ${{ github.head_ref || github.ref_name }} \
-          "Apply codestyle :pencil2:"
+        cd parser
+        python -m src data/2023it.csv 2023 it ../backend/data
 
-    - name: Update poetry.lock
+    - name: Run tests
       run: |
-        poetry update --lock
-
-    - name: Commit changes
-      run: |
-        poetry run python .github/commit_and_push.py \
-          --token ${{ secrets.GITHUB_TOKEN }} \
-          PerchunPak/ssps-chances-calculator \
-          ${{ github.head_ref || github.ref_name }} \
-          "Update poetry.lock :chart_with_upwards_trend:"
-
-    - name: Bump template
-      run: |
-        set -o pipefail
-
-        function print_conflicts_list() {
-          find . -regex '^.*\.rej$';
-        }
-        function update_count_of_conflicts() {
-          CONFLICTS_COUNT=$(find . -regex '^.*\.rej$' -printf '.' | wc -c)
-        }
-
-        echo "::group::Bump template (first try)"
-        cruft update -y
-        echo "::endgroup::"
-
-        echo "::group::List of conflicts"
-        print_conflicts_list
-        echo "::endgroup::"
-
-        update_count_of_conflicts
-        if [[ $CONFLICTS_COUNT -gt 0 ]]
-        then
-          echo "::group::Try to resolve conflicts"
-          rm -f poetry.lock.rej poetry.lock
-          git checkout master -- poetry.lock
-          poetry lock --no-update
-          echo "::endgroup::"
-
-          echo "::group::List of conflicts"
-          print_conflicts_list
-          echo "::endgroup::"
-
-          update_count_of_conflicts
-          if [[ $CONFLICTS_COUNT -gt 0 ]]
-          then
-            exit 1
-          fi
-        else
-          echo "No conflicts found"
-        fi
-
-    - name: Commit changes
-      run: |
-        poetry run python .github/commit_and_push.py \
-          --token ${{ secrets.GITHUB_TOKEN }} \
-          PerchunPak/ssps-chances-calculator \
-          ${{ github.head_ref || github.ref_name }} \
-          "Bump template :rocket:"
+        cd backend
+        make test

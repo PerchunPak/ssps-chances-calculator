@@ -13,7 +13,7 @@ packages = [ { include = "src" } ]
 
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.10"
 
 omegaconf = "~2.3"
 loguru = "~0.7"
@@ -67,5 +67,5 @@ dumb-init = "~1.2"
 
 
 [tool.black]
-line-length = 120
-target-version = ['py312']
+line-length = 80
+target-version = ['py310']
