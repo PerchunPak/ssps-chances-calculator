@@ -20,6 +20,8 @@ loguru = "~0.7"
 sentry-sdk = "~1.37"
 fastapi = "~0.110"
 strawberry-graphql = { version = "~0.226", extras = ["fastapi"] }
+aiosqlite = "^0.20.0"
+asyncache = "^0.3.1"
 
 
 [tool.poetry.group.dev.dependencies]
