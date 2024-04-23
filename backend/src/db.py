@@ -1,4 +1,3 @@
-
 import aiosqlite
 import asyncache
 import typing_extensions as te
@@ -13,7 +12,9 @@ class IncorrectDatabase(Exception):
 
 
 class Database:
-    def __init__(self, connection: aiosqlite.Connection, cursor: aiosqlite.Cursor) -> None:
+    def __init__(
+        self, connection: aiosqlite.Connection, cursor: aiosqlite.Cursor
+    ) -> None:
         self._connection = connection
         self._cursor = cursor
 
@@ -30,13 +31,19 @@ class Database:
             """
         )
         table_names = list(map(lambda x: x[0], await result.fetchall()))
-        if "points" not in table_names or not any(map(lambda x: x.startswith("year"), table_names)):
-            raise IncorrectDatabase("Please init database using `parser` script, and then use it with this backend.")
+        if "points" not in table_names or not any(
+            map(lambda x: x.startswith("year"), table_names)
+        ):
+            raise IncorrectDatabase(
+                "Please init database using `parser` script, and then use it with this backend."
+            )
 
         await connection.commit()
         return cls(connection, cursor)
 
-    async def get_all_students(self, year: int, field: str, /) -> list[models.Student]:
+    async def get_all_students(
+        self, year: int, field: str, /
+    ) -> list[models.Student]:
         result = await self._cursor.execute(
             f"""
             SELECT * FROM year{year}{field} -- Scary!

@@ -16,7 +16,9 @@ class Student:
     original_points: Points
     school_points: Points
     total_points: float
-    reduced_ranking: int | None  # redukované pořadí; can be 0 if student was accepted
+    reduced_ranking: (
+        int | None
+    )  # redukované pořadí; can be 0 if student was accepted
 
 
 @strawberry.type

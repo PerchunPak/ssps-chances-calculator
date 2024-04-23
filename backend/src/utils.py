@@ -43,7 +43,8 @@ def setup_logging() -> None:
         logger.add(
             sys.stdout,
             level=config.logging.level,
-            filter=lambda record: record["level"].no < config_module.LoggingLevel.WARNING,
+            filter=lambda record: record["level"].no
+            < config_module.LoggingLevel.WARNING,
             colorize=True,
             serialize=config.logging.json,
             backtrace=True,
@@ -52,7 +53,8 @@ def setup_logging() -> None:
     logger.add(
         sys.stderr,
         level=config.logging.level,
-        filter=lambda record: record["level"].no >= config_module.LoggingLevel.WARNING,
+        filter=lambda record: record["level"].no
+        >= config_module.LoggingLevel.WARNING,
         colorize=True,
         serialize=config.logging.json,
         backtrace=True,

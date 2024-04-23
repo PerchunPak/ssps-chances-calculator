@@ -40,7 +40,9 @@ class LoggingSection:
 class Config(metaclass=utils.Singleton):
     """The main config that holds everything in itself."""
 
-    sentry: SentryConfigSection = dataclasses.field(default_factory=SentryConfigSection)
+    sentry: SentryConfigSection = dataclasses.field(
+        default_factory=SentryConfigSection
+    )
     logging: LoggingSection = dataclasses.field(default_factory=LoggingSection)
 
     @classmethod

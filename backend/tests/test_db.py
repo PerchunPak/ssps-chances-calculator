@@ -43,8 +43,12 @@ def get_all_students(year: int, field: str) -> list[StudentWithPoints]:
 
     students: list[StudentWithPoints] = []
     for as_dict in list_as_dict.values():
-        as_dict["original_points"] = Points(id=as_dict["original_points_id"], **as_dict["original_points"])
-        as_dict["school_points"] = Points(id=as_dict["school_points_id"], **as_dict["school_points"])
+        as_dict["original_points"] = Points(
+            id=as_dict["original_points_id"], **as_dict["original_points"]
+        )
+        as_dict["school_points"] = Points(
+            id=as_dict["school_points_id"], **as_dict["school_points"]
+        )
 
         students.append(StudentWithPoints(**as_dict))
 
@@ -56,7 +60,9 @@ async def test_get_all_students(db: Database, year: int, field: str) -> None:
     """That table must not change, and if it will - it is an error."""
     students_from_db = await db.get_all_students(year, field)
     students_that_should_exist = get_all_students(year, field)
-    students_that_should_exist = list(map(lambda x: x.as_student(), students_that_should_exist))
+    students_that_should_exist = list(
+        map(lambda x: x.as_student(), students_that_should_exist)
+    )
     assert students_from_db == students_that_should_exist
 
 
