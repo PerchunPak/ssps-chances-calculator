@@ -7,11 +7,11 @@ from strawberry.asgi import GraphQL
 
 utils.start_sentry()
 
-graphql_app = GraphQL(strawberry_schema)
+graphql_app = GraphQL(strawberry_schema)  # type: ignore[var-annotated]
 
 app = fastapi.FastAPI()
-app.add_route("/graphql", graphql_app)
-app.add_websocket_route("/graphql", graphql_app)
+app.add_route("/graphql", graphql_app)  # type: ignore[arg-type]
+app.add_websocket_route("/graphql", graphql_app)  # type: ignore[arg-type]
 
 
 if __name__ == "__main__":

@@ -59,4 +59,4 @@ class Database:
             """,
             (id,),
         )
-        return models.Points(*await result.fetchone())
+        return models.Points(*await result.fetchone())  # type: ignore[misc]

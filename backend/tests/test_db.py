@@ -24,7 +24,7 @@ class StudentWithPoints(Student):
 
 @pytest.fixture(scope="session")
 async def db() -> Database:
-    return await Database.setup()
+    return await Database.setup()  # type: ignore[no-any-return]
 
 
 def get_years_and_fields_to_test() -> t.Iterable[tuple[int, str]]:
