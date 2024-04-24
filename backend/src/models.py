@@ -1,8 +1,6 @@
 # for documentation see src/strawberry/schema.py
 import dataclasses
 
-import typing_extensions as te
-
 
 @dataclasses.dataclass
 class Student:

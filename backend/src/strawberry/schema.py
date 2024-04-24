@@ -11,7 +11,11 @@ class Points:
 
 @strawberry.type
 class Student:
-    place: int  # WARN: Is not unique when total_points are equal; but only if two people (see it 2023 103)
+    # WARN:
+    # Place can be not unique, if TWO people have the same `total_points`
+    # If three people have the same total score, it is two places
+    # (see 2023 IT place 203 for what I mean)
+    place: int
     school_id: str
     original_points: Points
     school_points: Points
