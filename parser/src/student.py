@@ -50,13 +50,17 @@ class Points:
 
 
 @dataclasses.dataclass
-class Student:
+class ParentStudent:  # for tests
     place: int
     school_id: str
-    original_points: Points
-    school_points: Points
     total_points: float
     reduced_ranking: int | None  # redukované pořadí
+
+
+@dataclasses.dataclass
+class Student(ParentStudent):
+    original_points: Points
+    school_points: Points
 
     @classmethod
     def parse(cls, as_list: list[str]) -> te.Self:

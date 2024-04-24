@@ -1,5 +1,4 @@
 import sqlite3
-from pathlib import Path
 
 from src.student import Student
 from src.utils import DATA_DIR
