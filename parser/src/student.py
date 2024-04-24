@@ -1,4 +1,5 @@
 import dataclasses
+import hashlib
 
 import typing_extensions as te
 
@@ -11,7 +12,9 @@ def parse_reduced_ranking(as_list: list[str]) -> int | None:
         return 0
 
     return int(
-        as_list[12].removeprefix("Uchazeč se umístil na základě redukovaného pořadí na ").removesuffix(". místě.")
+        as_list[12]
+        .removeprefix("Uchazeč se umístil na základě redukovaného pořadí na ")
+        .removesuffix(". místě.")
     )
 
 
@@ -39,6 +42,11 @@ class Points:
             ict=int(as_list[9]),
             other=int(as_list[10]),
         )
+
+    def as_hash(self) -> str:
+        hash = hashlib.sha256()
+        hash.update(str(self).encode())
+        return hash.hexdigest()
 
 
 @dataclasses.dataclass

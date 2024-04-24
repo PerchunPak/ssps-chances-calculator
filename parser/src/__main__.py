@@ -1,8 +1,5 @@
-import dataclasses
-import json
 import re
 import sys
-import typing as t
 from pathlib import Path
 
 from src.db import Database
@@ -30,8 +27,8 @@ def main() -> None:
         result_path / "test_db.json", str(year), field
     )
     for student in students:
-        original_points_id, school_points_id = db.add_student(student)
-        test_representation.add_student(student, original_points_id, school_points_id)
+        db.add_student(student)
+        test_representation.add_student(student)
 
     test_representation.save()
 

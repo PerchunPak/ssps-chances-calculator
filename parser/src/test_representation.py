@@ -25,13 +25,11 @@ class TestRepresentation:
         with self._result_file.open("w") as f:
             json.dump(self._parsed, f, indent=2, ensure_ascii=False)
 
-    def add_student(
-        self, student: Student, original_points_id: str, school_points_id: str
-    ) -> None:
+    def add_student(self, student: Student) -> None:
         self._data[student.school_id] = dataclasses.asdict(student)
         self._data[student.school_id].update(
             {
-                "original_points_id": original_points_id,
-                "school_points_id": school_points_id,
+                "original_points_id": student.original_points.as_hash(),
+                "school_points_id": student.school_points.as_hash(),
             }
         )

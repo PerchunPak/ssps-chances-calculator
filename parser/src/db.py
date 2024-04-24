@@ -42,26 +42,34 @@ class Database:
             """,
         )
 
-    def add_student(self, student: Student) -> tuple[str, str]:
-        original_points_id, school_points_id = str(uuid.uuid4()), str(uuid.uuid4())
+    def add_student(self, student: Student) -> None:
+        original_points_id, school_points_id = (
+            student.original_points.as_hash(),
+            student.school_points.as_hash(),
+        )
 
         for id, points in (
             (original_points_id, student.original_points),
             (school_points_id, student.school_points),
         ):
-            self._cursor.execute(
-                """
-                INSERT INTO points (id, mat, czl, ict, other)
-                VALUES (?, ?, ?, ?, ?)
-                """,
-                (
-                    id,
-                    points.mat,
-                    points.czl,
-                    points.ict,
-                    points.other,
-                ),
-            )
+            try:
+                self._cursor.execute(
+                    """
+                    INSERT INTO points (id, mat, czl, ict, other)
+                    VALUES (?, ?, ?, ?, ?)
+                    """,
+                    (
+                        id,
+                        points.mat,
+                        points.czl,
+                        points.ict,
+                        points.other,
+                    ),
+                )
+            except sqlite3.IntegrityError as e:
+                # two students have completely identical points!
+                if e.args != ("UNIQUE constraint failed: points.id",):
+                    raise
 
         self._cursor.execute(
             f"""
@@ -78,5 +86,3 @@ class Database:
             ),
         )
         self._connection.commit()
-
-        return original_points_id, school_points_id
