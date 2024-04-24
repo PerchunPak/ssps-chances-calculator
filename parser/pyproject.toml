@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "ssps-chances-calculator"
-description = "Backend for SSPS chances calculator"
+description = "Parser for SSPS chances calculator"
 version = "0.1.0"
 license = "MIT"
 authors = []
@@ -14,18 +14,6 @@ packages = [ { include = "src" } ]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-
-omegaconf = "~2.3"
-loguru = "~0.7"
-sentry-sdk = "~1.45"
-fastapi = "~0.110"
-strawberry-graphql = { version = "~0.226", extras = ["fastapi"] }
-aiosqlite = "~0.20"
-asyncache = "~0.3"
-
-
-[tool.poetry.group.dev.dependencies]
-strawberry-graphql = { version = "*", extras = ["debug-server"] }
 
 
 [tool.poetry.group.make.dependencies]
@@ -49,13 +37,6 @@ pytest-mock = "~3.14"
 pytest-randomly = "~3.15"
 pytest-asyncio = "~0.23"
 Faker = "~24.11"
-
-
-[tool.poetry.group.docker]
-optional = true
-
-[tool.poetry.group.docker.dependencies]
-dumb-init = "~1.2"
 
 
 [tool.black]

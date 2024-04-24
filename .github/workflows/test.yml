@@ -24,7 +24,7 @@ jobs:
       id: poetry_setup
       uses: ItsDrike/setup-poetry@v1
       with:
-          working-dir: ./backend
+          working-dir: ./parser
           python-version: ${{ matrix.python-version }}
           install-args: --sync
 
@@ -40,11 +40,11 @@ jobs:
 
     - name: Generate DB using parser
       run: |
+        mkdir data
         cd parser
-        mkdir ../backend/data
-        python -m src data/2023it.csv 2023 it ../backend/data
+        python -m src data/2023it.csv 2023 it ../data
 
-    - name: Run tests
+    - name: Run tests on parser
       run: |
-        cd backend
+        cd parser
         make test
