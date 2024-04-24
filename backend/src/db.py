@@ -11,20 +11,22 @@ class IncorrectDatabase(Exception):
     pass
 
 
+class NotFoundError(Exception):
+    pass
+
+
 class Database:
     def __init__(
         self, connection: aiosqlite.Connection, cursor: aiosqlite.Cursor
     ) -> None:
         self._connection = connection
-        self._cursor = cursor
 
     @classmethod
     @asyncache.cached({})
     async def setup(cls) -> te.Self:
         connection = await aiosqlite.connect(DB_FILE)
-        cursor = await connection.cursor()
 
-        result = await cursor.execute(
+        result = await connection.execute(
             """
             SELECT name FROM sqlite_master
             WHERE type='table'
@@ -39,12 +41,12 @@ class Database:
             )
 
         await connection.commit()
-        return cls(connection, cursor)
+        return cls(connection, None)
 
     async def get_all_students(
         self, year: int, field: str, /
     ) -> list[models.Student]:
-        result = await self._cursor.execute(
+        result = await self._connection.execute(
             f"""
             SELECT * FROM year{year}{field} -- Scary!
             """
@@ -52,11 +54,16 @@ class Database:
         return list(map(lambda x: models.Student(*x), await result.fetchall()))
 
     async def get_points_by_id(self, id: str, /) -> models.Points:
-        result = await self._cursor.execute(
+        result = await self._connection.execute(
             """
             SELECT * FROM points
             WHERE id = ?
             """,
             (id,),
         )
-        return models.Points(*await result.fetchone())  # type: ignore[misc]
+        fetched = await result.fetchone()
+        print(id, fetched)
+        if fetched is None:
+            raise NotFoundError(f"Cannot find points with ID {id}")
+
+        return models.Points(*fetched)  # type: ignore[misc]
