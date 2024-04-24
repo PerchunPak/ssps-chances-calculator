@@ -26,12 +26,14 @@ def main() -> None:
     print(f"Found {len(students)} students, last is on {students[-1].place} place!")
 
     db = Database(result_path / "database.db", f"year{year}{field}")
-    test_representation = TestRepresentation(result_path / "test_db.json", str(year), field)
+    test_representation = TestRepresentation(
+        result_path / "test_db.json", str(year), field
+    )
     for student in students:
         original_points_id, school_points_id = db.add_student(student)
         test_representation.add_student(student, original_points_id, school_points_id)
 
-    test_representation.write()
+    test_representation.save()
 
 
 if __name__ == "__main__":

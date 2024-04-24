@@ -21,11 +21,13 @@ class TestRepresentation:
         self._parsed[year].setdefault(field, {})
         self._data = self._parsed[year][field]
 
-    def write(self) -> None:
+    def save(self) -> None:
         with self._result_file.open("w") as f:
             json.dump(self._parsed, f, indent=2, ensure_ascii=False)
 
-    def add_student(self, student: Student, original_points_id: str, school_points_id: str) -> None:
+    def add_student(
+        self, student: Student, original_points_id: str, school_points_id: str
+    ) -> None:
         self._data[student.school_id] = dataclasses.asdict(student)
         self._data[student.school_id].update(
             {
