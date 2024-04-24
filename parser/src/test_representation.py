@@ -1,18 +1,19 @@
 import dataclasses
 import json
-from pathlib import Path
 
 from src.student import Student
+from src.utils import DATA_DIR
+
+TEST_DB_FILE = DATA_DIR / "test_db.json"
 
 
 class TestRepresentation:
-    def __init__(self, result_file: Path, year: str, field: str) -> None:
-        self._result_file = result_file
+    def __init__(self, year: str, field: str) -> None:
         self._year = year
         self._field = field
 
-        if result_file.exists():
-            with result_file.open("r") as f:
+        if TEST_DB_FILE.exists():
+            with TEST_DB_FILE.open("r") as f:
                 self._parsed = json.load(f)
         else:
             self._parsed = {}
@@ -22,7 +23,7 @@ class TestRepresentation:
         self._data = self._parsed[year][field]
 
     def save(self) -> None:
-        with self._result_file.open("w") as f:
+        with TEST_DB_FILE.open("w") as f:
             json.dump(self._parsed, f, indent=2, ensure_ascii=False)
 
     def add_student(self, student: Student) -> None:

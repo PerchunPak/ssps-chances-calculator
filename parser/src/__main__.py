@@ -13,19 +13,18 @@ def main() -> None:
     csv_table_path = Path(sys.argv[1])
     year = int(sys.argv[2])
     field = sys.argv[3]
-    result_path = Path(sys.argv[4])
 
     students: list[Student] = []
     with csv_table_path.open("r") as csv_table_file:
         for line in csv_table_file.readlines():
             as_list = re.split(SEPARATOR_REGEX, line.rstrip("\n"), 13)
             students.append(Student.parse(as_list))
-    print(f"Found {len(students)} students, last is on {students[-1].place} place!")
-
-    db = Database(result_path / "database.db", f"year{year}{field}")
-    test_representation = TestRepresentation(
-        result_path / "test_db.json", str(year), field
+    print(
+        f"Found {len(students)} students, last is on {students[-1].place} place!"
     )
+
+    db = Database(f"year{year}{field}")
+    test_representation = TestRepresentation(str(year), field)
     for student in students:
         db.add_student(student)
         test_representation.add_student(student)

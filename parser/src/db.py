@@ -1,16 +1,17 @@
 import sqlite3
-import uuid
 from pathlib import Path
 
 from src.student import Student
+from src.utils import DATA_DIR
+
+DB_PATH = DATA_DIR / "database.db"
 
 
 class Database:
-    def __init__(self, db_path: Path, table_name: str) -> None:
-        self._db_path = db_path
+    def __init__(self, table_name: str) -> None:
         self._table_name = table_name
 
-        self._connection = sqlite3.connect(str(db_path))
+        self._connection = sqlite3.connect(str(DB_PATH))
         self._cursor = self._connection.cursor()
         self._create_tables()
 
